@@ -1,0 +1,42 @@
+name: CD
+on:
+  push:
+    tags: ["v*"]
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Create release
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.github_token }}
+          script: |
+            const tag = process.env.GITHUB_REF.split('/').slice(-1)[0]
+            try {
+              await github.rest.repos.createRelease({
+                draft: false,
+                generate_release_notes: true,
+                name: tag,
+                owner: context.repo.owner,
+                prerelease: false,
+                repo: context.repo.repo,
+                tag_name: tag,
+              })
+            }
+            catch (error) {
+              core.setFailed(error.message)
+            }
+  notify:
+    needs: [release]
+    name: Notify
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: andrewscwei/telegram-action@v1.0.0
+        with:
+          success: ${{ needs.release.result == 'success' }}
+          bot-token: ${{ secrets.TELEGRAM_DEVOPS_BOT_TOKEN }}
+          chat-id: ${{ secrets.TELEGRAM_DEVOPS_CHAT_ID }}
