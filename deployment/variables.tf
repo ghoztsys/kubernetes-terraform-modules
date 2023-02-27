@@ -1,38 +1,6 @@
-variable "name" {
-  default     = null
-  description = "Name of the Deployment resource."
-  nullable    = true
-  type        = string
-}
-
-variable "namespace" {
-  default     = null
-  description = "Namespace to create the Deployment and associated Service resources in."
-  nullable    = true
-  type        = string
-}
-
-variable "replicas" {
-  default     = 1
-  description = "Number of desired replicas."
-  type        = number
-}
-
 variable "annotations" {
   default     = {}
   description = "Annotations to attach to the Deployment resource."
-  type        = map(string)
-}
-
-variable "labels" {
-  default     = {}
-  description = "Labels to attach to the Deployment resource."
-  type        = map(string)
-}
-
-variable "pod_labels" {
-  default     = {}
-  description = "Labels to attach to each pod in the Deployment."
   type        = map(string)
 }
 
@@ -59,4 +27,43 @@ variable "containers" {
       name       = string
     }))
   }))
+}
+
+variable "labels" {
+  default     = {}
+  description = "Labels to attach to the Deployment resource."
+  type        = map(string)
+}
+
+variable "name" {
+  default     = null
+  description = "Name of the Deployment resource."
+  nullable    = true
+  type        = string
+}
+
+variable "namespace" {
+  default     = null
+  description = "Namespace to create the Deployment and associated Service resources in."
+  nullable    = true
+  type        = string
+}
+
+variable "pod_labels" {
+  default     = {}
+  description = "Labels to attach to each pod in the Deployment."
+  type        = map(string)
+}
+
+variable "replicas" {
+  default     = 1
+  description = "Number of desired replicas."
+  type        = number
+}
+
+variable "service_account_name" {
+  default     = null
+  description = "Name of the ServiceAccount to use to run the pods."
+  nullable    = true
+  type        = string
 }

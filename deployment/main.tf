@@ -47,6 +47,8 @@ resource "kubernetes_deployment" "default" {
       }
 
       spec {
+        service_account_name = var.service_account_name
+
         dynamic "container" {
           for_each = var.containers
 

@@ -65,6 +65,7 @@ resource "kubernetes_stateful_set" "default" {
 
       spec {
         automount_service_account_token = true
+        service_account_name            = var.service_account_name
 
         dynamic "container" {
           for_each = var.containers
