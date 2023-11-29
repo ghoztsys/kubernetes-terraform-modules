@@ -1,5 +1,3 @@
 # Terraform Modules for Kubernetes Provider
 
----
-
-© GHOZT
+Custom Terraform modules for Kubernetes provider.
